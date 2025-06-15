@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "SEO Competitor Anchor Checker",
+  "version": "1.4",
+  "description": "Check competitor sites for keyword-based anchors and open Google inanchor search with up to 100 results.",
+  "permissions": ["tabs", "downloads", "storage", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

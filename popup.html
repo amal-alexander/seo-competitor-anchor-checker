@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; width: 330px; padding: 10px; }
+    textarea, input {
+      width: 100%; margin-bottom: 10px; padding: 6px; box-sizing: border-box;
+    }
+    button {
+      width: 100%; padding: 8px;
+      background-color: #4285F4; color: white;
+      border: none; cursor: pointer;
+    }
+    button:hover { background-color: #3367D6; }
+  </style>
+</head>
+<body>
+  <label>Enter main keywords and competitor URLs (1 per line):</label>
+  <textarea id="kwUrls" placeholder="insurance,https://site1.com,https://site2.com"></textarea>
+
+  <label>Additional Keywords (optional):</label>
+  <textarea id="extraKeywords" placeholder="car insurance,life insurance"></textarea>
+
+  <label>Additional Competitor Domains (optional):</label>
+  <textarea id="extraDomains" placeholder="https://extra1.com,https://extra2.com"></textarea>
+
+  <button id="runButton">Run Analysis</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>

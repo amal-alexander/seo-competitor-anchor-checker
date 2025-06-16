@@ -5,6 +5,7 @@ chrome.runtime.onMessage.addListener((req) => {
     results = [];
     req.jobs.forEach(job => {
       job.urls.forEach(site => {
+        // Open the actual site in a new tab and inject content.js
         chrome.tabs.create({ url: site }, (tab) => {
           chrome.scripting.executeScript({
             target: { tabId: tab.id },
@@ -19,10 +20,21 @@ chrome.runtime.onMessage.addListener((req) => {
           });
         });
 
-        const query = `site:${site} inanchor:"${job.keyword}"`;
+        // Determine query logic
+        let query;
+        if (site.includes("youtube.com")) {
+          // Extract YouTube channel identifier
+          const channelName = new URL(site).pathname.split('/').filter(Boolean).pop();
+          query = `site:youtube.com "${job.keyword}" "${channelName}"`;
+        } else {
+          query = `site:${site} inanchor:"${job.keyword}"`;
+        }
+
+        // Google search URL for up to 100 results
         const searchURL = `https://www.google.com/search?q=${encodeURIComponent(query)}&num=100`;
         chrome.tabs.create({ url: searchURL });
 
+        // Store results reference
         results.push({ site, keyword: job.keyword, anchors: [] });
       });
     });

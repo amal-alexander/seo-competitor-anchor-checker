@@ -5,6 +5,7 @@ document.getElementById('runButton').addEventListener('click', () => {
 
   let jobs = [];
 
+  // Standard jobs from text area
   mainLines.forEach(line => {
     let [keyword, ...urls] = line.split(',').map(s => s.trim());
     if (keyword && urls.length) {
@@ -12,14 +13,28 @@ document.getElementById('runButton').addEventListener('click', () => {
     }
   });
 
+  // Add extra keywords with extra domains
   extraKeywords.forEach(keyword => {
     if (extraDomains.length) {
       jobs.push({ keyword, urls: extraDomains });
     }
   });
 
+  // YouTube-specific job
+  const ytKeyword = document.getElementById('ytKeyword').value.trim();
+  const ytChannel = document.getElementById('ytChannel').value.trim();
+
+  if (ytKeyword && ytChannel) {
+    const cleaned = ytChannel
+      .replace(/^https?:\/\/(www\.)?youtube\.com\//, '')  // remove full URL
+      .replace(/^@/, ''); // clean "@"
+
+    // Build URL like youtube.com/@channel or youtube.com/c/channelname
+    jobs.push({ keyword: ytKeyword, urls: [`https://www.youtube.com/${cleaned}`] });
+  }
+
   if (jobs.length === 0) {
-    alert("Please enter at least one keyword with competitor URLs.");
+    alert("Please enter at least one keyword with competitor URLs or YouTube data.");
     return;
   }
 
